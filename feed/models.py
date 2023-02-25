@@ -3,13 +3,13 @@ from user.models import User
 
 
 class Image(models.Model):
-    image = models.ImageField(upload_to='images/', null=True, blank=True)
+    src = models.ImageField(upload_to='images/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
 class Video(models.Model):
-    video = models.FileField(upload_to='videos/', null=True, blank=True)
+    src = models.FileField(upload_to='videos/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -34,7 +34,7 @@ class Feed(models.Model):
         Comment, through='FeedComment', related_name='feed_comment')
 
     def __str__(self):
-        return self.text
+        return self.caption_text
 
 
 class FeedImage(models.Model):
