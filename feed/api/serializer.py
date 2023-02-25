@@ -1,11 +1,21 @@
 from ..models import Feed, Image, FeedImage, Video, FeedVideo
 from rest_framework import serializers
+from user.api.serializer import UserSerializer
 
 
 class FeedSerializer(serializers.ModelSerializer):
+    like_count = serializers.SerializerMethodField()
+    media = serializers.SerializerMethodField()
+
+    def get_media(self, obj):
+        return ({"video": VideoSerializer(obj.videos.all(), many=True).data, "image": ImageSerializer(obj.images.all(), many=True).data})
+
+    def get_like_count(self, obj):
+        return len(UserSerializer(obj.likes.all(), many=True).data)
+
     class Meta:
         model = Feed
-        fields = "__all__"
+        exclude = ['videos', 'images']
         depth = 1
 
     # def create(self, validated_data):
