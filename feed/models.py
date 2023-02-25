@@ -17,7 +17,8 @@ class Video(models.Model):
 class Comment(models.Model):
     text = models.TextField(max_length=5000, default="")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    reply = models.ForeignKey('self', on_delete=models.CASCADE,null=True, blank=True, related_name='replies')
+    reply = models.ForeignKey(
+        'self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
 
 
 class Feed(models.Model):
@@ -27,8 +28,12 @@ class Feed(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     images = models.ManyToManyField(Image, through='FeedImage')
     videos = models.ManyToManyField(Video, through='FeedVideo')
+
     likes = models.ManyToManyField(
         User, through='FeedLike', related_name='feed_like')
+
+    save = models.ManyToManyField(
+        User, through='FeedSave', related_name='feed_save')
 
     comments = models.ManyToManyField(
         Comment, through='FeedComment', related_name='feed_comment')
@@ -48,6 +53,11 @@ class FeedVideo(models.Model):
 
 
 class FeedLike(models.Model):
+    feed = models.ForeignKey(Feed, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class FeedSave(models.Model):
     feed = models.ForeignKey(Feed, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
