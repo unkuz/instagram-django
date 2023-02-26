@@ -1,4 +1,5 @@
 from ..models import Feed, Image, FeedImage, Video, FeedVideo, FeedLike, FeedSave, Tag
+from user.models import User
 from rest_framework import serializers, status
 from user.api.serializer import UserSerializer
 from rest_framework.response import Response
@@ -15,6 +16,7 @@ class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
         fields = '__all__'
+
 
 class FeedImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -70,10 +72,14 @@ class FeedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Feed
+        # fields = '__all__'
         exclude = ('images', 'videos')
 
 
 class FeedCreateSerializer(serializers.ModelSerializer):
+    # likes = serializers.ListField(
+    #     child=serializers.IntegerField(), required=False)
+
     class Meta:
         model = Feed
         exclude = ['user']
@@ -85,9 +91,20 @@ class FeedCreateSerializer(serializers.ModelSerializer):
         images = request.FILES.getlist('images')
         videos = request.FILES.getlist('videos')
         print("validated_data", validated_data)
+        
+        # likes_data = validated_data.pop('likes', [])
+
 
         feed = Feed.objects.create(user=user, **validated_data)
-
+        
+        # Add likes to the feed
+        # for user_id in likes_data:
+        #     user = User.objects.get(id=user_id)
+        #     feed.likes.add(user)
+        # likes = User.objects.filter(id__in=likes_data)
+        # feed.likes.set(likes)
+        
+        
         for image_data in images:
             image = Image.objects.create(src=image_data)
             FeedImage.objects.create(feed=feed, image=image)

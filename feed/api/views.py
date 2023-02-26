@@ -15,7 +15,7 @@ class FeedList(generics.ListAPIView):
 
 class FeedDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Feed.objects.all()
-    serializer_class = FeedSerializer
+    serializer_class = FeedCreateSerializer
 
 
 class ImageList(generics.ListCreateAPIView):
