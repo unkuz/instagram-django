@@ -3,13 +3,13 @@ from user.models import User
 
 
 class Image(models.Model):
-    src = models.ImageField(upload_to='images/', null=True, blank=True)
+    src = models.ImageField(upload_to='static/images/feed', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
 class Video(models.Model):
-    src = models.FileField(upload_to='videos/', null=True, blank=True)
+    src = models.FileField(upload_to='static/videos/feed', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -20,9 +20,12 @@ class Comment(models.Model):
     reply = models.ForeignKey(
         'self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
 
+class Tag(models.Model):
+    tag = models.CharField(max_length=50)
+    
 
 class Feed(models.Model):
-    caption_text = models.TextField(max_length=5000, default="")
+    caption_text = models.TextField(max_length=5000, null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -32,12 +35,15 @@ class Feed(models.Model):
     likes = models.ManyToManyField(
         User, through='FeedLike', related_name='feed_like')
 
-    save = models.ManyToManyField(
+    saved = models.ManyToManyField(
         User, through='FeedSave', related_name='feed_save')
 
     comments = models.ManyToManyField(
         Comment, through='FeedComment', related_name='feed_comment')
-
+    
+    tags = models.ManyToManyField(Tag,through='FeedTag',related_name='feed_tag')
+    
+    
     def __str__(self):
         return self.caption_text
 
@@ -65,3 +71,8 @@ class FeedSave(models.Model):
 class FeedComment(models.Model):
     feed = models.ForeignKey(Feed, on_delete=models.CASCADE)
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+
+
+class FeedTag(models.Model):
+    feed = models.ForeignKey(Feed, on_delete=models.CASCADE)
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)

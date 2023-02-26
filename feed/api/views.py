@@ -1,9 +1,14 @@
 from rest_framework import generics
 from ..models import Feed, Image, FeedImage, Video, FeedVideo
-from .serializer import FeedSerializer, ImageSerializer, FeedImageSerializer, VideoSerializer, FeedVideoSerializer
+from .serializer import FeedSerializer, ImageSerializer, FeedImageSerializer, VideoSerializer, FeedVideoSerializer,FeedCreateSerializer
 
 
-class FeedList(generics.ListCreateAPIView):
+
+class FeedCreate(generics.CreateAPIView):
+    queryset = Feed.objects.all()
+    serializer_class = FeedCreateSerializer
+
+class FeedList(generics.ListAPIView):
     queryset = Feed.objects.all()
     serializer_class = FeedSerializer
 

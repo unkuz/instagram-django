@@ -16,7 +16,8 @@ class CustomUserManager(BaseUserManager):
 
     def create_superuser(self, user_name, password=None, **extra_fields):
         return self.create_user(user_name, password, **extra_fields)
-    
+
+
     
 class User(AbstractBaseUser):
     last_login = None
@@ -24,12 +25,15 @@ class User(AbstractBaseUser):
     user_name = models.CharField(unique=True,max_length=100, null=False, blank=False)
     name = models.CharField(max_length=100, blank=True, null=True, default="")
     bio = models.TextField(max_length=2000, blank=True, null=True , default="")
-    website = models.URLField(max_length=300,blank=True, null=True )
+    website = models.URLField(max_length=300,blank=True, null=True)
     phone_number = models.CharField(max_length=30, null=True,blank=True)
+    img_avatar = models.ImageField(upload_to='static/images/avatar/', null=True, blank= True)
+    img_cover = models.ImageField(upload_to='static/images/cover/', null=True, blank= True)
     
+    USERNAME_FIELD = 'user_name'
     
     objects = CustomUserManager()
-    USERNAME_FIELD = 'user_name'
+    
     def has_perm(self, perm, obj=None):
         return True
     
