@@ -16,7 +16,6 @@ class ImageSerializer(serializers.ModelSerializer):
         model = Image
         fields = '__all__'
 
-
 class FeedImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = FeedImage
@@ -59,7 +58,12 @@ class FeedSerializer(serializers.ModelSerializer):
         return TagSerializer(obj.tags.all(), many=True).data
 
     def get_carousel_media(self, obj):
-        return ({"videos": VideoSerializer(obj.videos.all(), many=True).data, "images": ImageSerializer(obj.images.all(), many=True).data})
+        videos = obj.videos.all()
+        images = obj.images.all()
+        video_data = VideoSerializer(videos, many=True).data
+        images_data = ImageSerializer(images, many=True).data
+
+        return {"videos": video_data, "images": images_data}
 
     def get_like_count(self, obj):
         return len(UserSerializer(obj.likes.all(), many=True).data)
