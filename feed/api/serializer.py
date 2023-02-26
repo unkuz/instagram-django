@@ -1,6 +1,7 @@
 from ..models import Feed, Image, FeedImage, Video, FeedVideo, FeedLike, FeedSave, Tag
-from rest_framework import serializers
+from rest_framework import serializers, status
 from user.api.serializer import UserSerializer
+from rest_framework.response import Response
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -34,31 +35,6 @@ class FeedVideoSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class FeedCreateSerializer(serializers.Serializer):
-    class Meta:
-        model = Feed
-        fields = "__all__"
-
-    def create(self, validated_data):
-        request = self.context['request']
-        user = request.user
-        images = request.FILES.getlist('images')
-        videos = request.FILES.getlist('videos')
-        print("validated_data",validated_data)
-
-        feed = Feed.objects.create(user=user, **validated_data)
-
-        for image_data in images:
-            image = Image.objects.create(src=image_data)
-            FeedImage.objects.create(feed=feed, image=image)
-
-        for video_data in videos:
-            video = Video.objects.create(src=video_data)
-            FeedVideo.objects.create(feed=feed, video=video)
-
-        return feed
-
-
 class FeedSerializer(serializers.ModelSerializer):
     user = UserSerializer(required=False)
     has_liked = serializers.SerializerMethodField()
@@ -90,4 +66,30 @@ class FeedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Feed
-        exclude = ('images','videos')
+        exclude = ('images', 'videos')
+
+
+class FeedCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Feed
+        exclude = ['user']
+
+    def create(self, validated_data):
+        request = self.context['request']
+        user = request.user
+        print('self.con', self.context['request'].data)
+        images = request.FILES.getlist('images')
+        videos = request.FILES.getlist('videos')
+        print("validated_data", validated_data)
+
+        feed = Feed.objects.create(user=user, **validated_data)
+
+        for image_data in images:
+            image = Image.objects.create(src=image_data)
+            FeedImage.objects.create(feed=feed, image=image)
+
+        for video_data in videos:
+            video = Video.objects.create(src=video_data)
+            FeedVideo.objects.create(feed=feed, video=video)
+
+        return feed
