@@ -19,13 +19,13 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             data.pop(key, None)
 
         user_name = self.user.user_name
-        img_avatar = str(self.user.img_avatar)
-        img_cover = str(self.user.img_cover)
+        profile_pic_url = str(self.user.profile_pic_url)
+        cover_pic_url = str(self.user.cover_pic_url)
 
         data['user'] = {
             "user_name": user_name,
-            "img_avatar": img_avatar,
-            "img_cover": img_cover
+            "profile_pic_url": profile_pic_url,
+            "cover_pic_url": cover_pic_url
 
         }
 

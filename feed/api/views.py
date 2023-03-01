@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics,permissions
 from ..models import Feed, Image, FeedImage, Video, FeedVideo, FeedLike,FeedSave
 from .serializer import FeedSerializer, FeedSaveSerializer, ImageSerializer, FeedImageSerializer, VideoSerializer, FeedVideoSerializer,FeedCreateSerializer, FeedLikeSerializer
 
@@ -7,6 +7,7 @@ from .serializer import FeedSerializer, FeedSaveSerializer, ImageSerializer, Fee
 class FeedCreate(generics.CreateAPIView):
     queryset = Feed.objects.all()
     serializer_class = FeedCreateSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 class FeedList(generics.ListAPIView):
     queryset = Feed.objects.all()
@@ -51,6 +52,7 @@ class FeedVideoList(generics.ListCreateAPIView):
 class FeedLikeAPIView(generics.CreateAPIView):
     queryset = FeedLike.objects.all()
     serializer_class = FeedLikeSerializer
+    
 
 class FeedSaveAPIView(generics.CreateAPIView):
     queryset = FeedSave.objects.all()
