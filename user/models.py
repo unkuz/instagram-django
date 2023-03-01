@@ -27,8 +27,8 @@ class User(AbstractBaseUser):
     bio = models.TextField(max_length=2000, blank=True, null=True , default="")
     website = models.URLField(max_length=300,blank=True, null=True)
     phone_number = models.CharField(max_length=30, null=True,blank=True)
-    img_avatar = models.ImageField(upload_to='static/images/avatar/', null=True, blank= True)
-    img_cover = models.ImageField(upload_to='static/images/cover/', null=True, blank= True)
+    profile_pic_url = models.ImageField(upload_to='static/images/avatar/', null=True, blank= True)
+    cover_pic_url = models.ImageField(upload_to='static/images/cover/', null=True, blank= True)
     
     USERNAME_FIELD = 'user_name'
     

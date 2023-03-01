@@ -1,4 +1,4 @@
-from ..models import Feed, Image, FeedImage, Video, FeedVideo, FeedLike, FeedSave, Tag
+from ..models import Feed, Image, FeedImage , Video, FeedVideo, FeedLike, FeedSave, Tag
 from user.models import User
 from rest_framework import serializers, status
 from user.api.serializer import UserSerializer
@@ -35,6 +35,55 @@ class FeedVideoSerializer(serializers.ModelSerializer):
         model = FeedVideo
         fields = '__all__'
 
+class FeedLikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FeedLike
+        exclude = ['feed','user']
+        
+    feed = None
+    
+    def create(self,validated_data):
+        request = self.context.get('request')
+        user = request.user
+        feed_id = request.data.get('feed')
+        feed = Feed.objects.filter(id = feed_id).first()        
+        if feed:
+            instance = FeedLike.objects.filter(user = user, feed = feed).first()
+            if instance:
+                instance.delete()
+                return Response(status = status.HTTP_204_NO_CONTENT)
+            else:
+                like = FeedLike.objects.create(user = user, feed = feed)
+                return like
+        else:
+            raise serializers.ValidationError('Feed does not exist')
+            
+class FeedSaveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FeedLike
+        exclude = ['feed','user']
+        
+    feed = None
+    
+    def create(self,validated_data):
+        request = self.context.get('request')
+        user = request.user
+        feed_id = request.data.get('feed')
+        feed = Feed.objects.filter(id = feed_id).first()        
+        if feed:
+            instance = FeedSave.objects.filter(user = user, feed = feed).first()
+            if instance:
+                instance.delete()
+                return Response(status = status.HTTP_204_NO_CONTENT)
+            else:
+                like = FeedSave.objects.create(user = user, feed = feed)
+                return like
+        else:
+            raise serializers.ValidationError('Feed does not exist')
+        
+        
+        
+        
 
 class FeedSerializer(serializers.ModelSerializer):
     user = UserSerializer(required=False)
@@ -83,6 +132,14 @@ class FeedCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Feed
         exclude = ['user']
+        
+    def update(self, instance, validated_data):
+        print("KAKA",validated_data["images"])
+        # instance.caption_text = validated_data.get()
+        
+        print("HEHEHE")
+        print("instance",instance)
+        return instance
 
     def create(self, validated_data):
         request = self.context['request']

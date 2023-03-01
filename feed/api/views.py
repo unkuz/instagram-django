@@ -1,6 +1,6 @@
 from rest_framework import generics
-from ..models import Feed, Image, FeedImage, Video, FeedVideo
-from .serializer import FeedSerializer, ImageSerializer, FeedImageSerializer, VideoSerializer, FeedVideoSerializer,FeedCreateSerializer
+from ..models import Feed, Image, FeedImage, Video, FeedVideo, FeedLike,FeedSave
+from .serializer import FeedSerializer, FeedSaveSerializer, ImageSerializer, FeedImageSerializer, VideoSerializer, FeedVideoSerializer,FeedCreateSerializer, FeedLikeSerializer
 
 
 
@@ -46,3 +46,12 @@ class VideoDetail(generics.RetrieveUpdateDestroyAPIView):
 class FeedVideoList(generics.ListCreateAPIView):
     queryset = FeedVideo.objects.all()
     serializer_class = FeedVideoSerializer
+
+
+class FeedLikeAPIView(generics.CreateAPIView):
+    queryset = FeedLike.objects.all()
+    serializer_class = FeedLikeSerializer
+
+class FeedSaveAPIView(generics.CreateAPIView):
+    queryset = FeedSave.objects.all()
+    serializer_class = FeedSaveSerializer

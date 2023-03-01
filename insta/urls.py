@@ -12,6 +12,4 @@ urlpatterns = [
     path('api/user/', AuthUserView.as_view(), name='get_current_user'),
     path('user/',include('user.api.urls')),
     path('feed/',include('feed.api.urls'))
-    
-    
 ]
