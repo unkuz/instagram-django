@@ -11,5 +11,6 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/user/', AuthUserView.as_view(), name='get_current_user'),
     path('user/',include('user.api.urls')),
-    path('feed/',include('feed.api.urls'))
+    path('feed/',include('feed.api.urls')),
+    path('suggestion/',include('suggestion.api.urls')),
 ]
