@@ -11,6 +11,7 @@ djangorestframework-simplejwt = "*"
 pillow = "*"
 django-cors-headers = "*"
 gunicorn = "*"
+pyngrok = "*"
 
 [dev-packages]
 autopep8 = "*"
