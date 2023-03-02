@@ -74,7 +74,7 @@ class FeedSaveSerializer(serializers.ModelSerializer):
             instance = FeedSave.objects.filter(user = user, feed = feed).first()
             if instance:
                 instance.delete()
-                return Response(status = status.HTTP_204_NO_CONTENT)
+                return Response({'message':'Unsave successfully'},status = status.HTTP_204_NO_CONTENT)
             else:
                 like = FeedSave.objects.create(user = user, feed = feed)
                 return like
