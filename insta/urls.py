@@ -14,4 +14,5 @@ urlpatterns = [
     path('feed/',include('feed.api.urls')),
     path('story/',include('story.api.urls')),
     path('suggestion/',include('suggestion.api.urls')),
+    path('explore/',include('explore.api.urls'))
 ]

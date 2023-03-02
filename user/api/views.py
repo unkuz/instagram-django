@@ -4,7 +4,7 @@ from .serializer import UserSerializer
 
 class UserList(generics.ListCreateAPIView):
     serializer_class = UserSerializer
-    permission_classes = [permissions.AllowAny]
+    # permission_classes = [permissions.AllowAny]
     
     def get_queryset(self):
         queryset = User.objects.all()

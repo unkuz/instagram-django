@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'user',
     'feed',
-    'story'
+    'story',
+    'explore'
     
 ]
 

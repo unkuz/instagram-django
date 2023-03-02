@@ -46,36 +46,42 @@ class Story(models.Model):
 
     tags = models.ManyToManyField(
         Tag, through='StoryTag', related_name='story_tag')
+    
+    seen = models.ManyToManyField(User,through='StorySeen', related_name='story_seen')
 
     def __str__(self):
         return self.caption_text
 
 
 class StoryImage(models.Model):
-    feed = models.ForeignKey(Story, on_delete=models.CASCADE)
+    story = models.ForeignKey(Story, on_delete=models.CASCADE)
     image = models.ForeignKey(Image, on_delete=models.CASCADE)
 
 
 class StoryVideo(models.Model):
-    feed = models.ForeignKey(Story, on_delete=models.CASCADE)
+    story = models.ForeignKey(Story, on_delete=models.CASCADE)
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
 
 
 class StorySave(models.Model):
-    feed = models.ForeignKey(Story, on_delete=models.CASCADE)
+    story = models.ForeignKey(Story, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class StoryComment(models.Model):
-    feed = models.ForeignKey(Story, on_delete=models.CASCADE)
+    story = models.ForeignKey(Story, on_delete=models.CASCADE)
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
 
 
 class StoryTag(models.Model):
-    feed = models.ForeignKey(Story, on_delete=models.CASCADE)
+    story = models.ForeignKey(Story, on_delete=models.CASCADE)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
 
 
 class StoryLike(models.Model):
-    feed = models.ForeignKey(Story, on_delete=models.CASCADE)
+    story = models.ForeignKey(Story, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+class StorySeen(models.Model):
+    story = models.ForeignKey(Story, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

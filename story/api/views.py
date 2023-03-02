@@ -10,3 +10,7 @@ class StoryListAPIView(generics.ListCreateAPIView):
 class StoryCreateAPIView(generics.CreateAPIView):
     queryset = Story.objects.all()
     serializer_class = StoryCreateSerializer
+    
+class StoryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Story.objects.all()
+    serializer_class = StorySerializer  

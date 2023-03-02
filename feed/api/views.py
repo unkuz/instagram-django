@@ -20,7 +20,7 @@ class FeedList(generics.ListAPIView):
 
 class FeedDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Feed.objects.all()
-    serializer_class = FeedCreateSerializer
+    serializer_class = FeedSerializer
 
 
 class ImageList(generics.ListCreateAPIView):

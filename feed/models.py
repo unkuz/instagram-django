@@ -43,6 +43,9 @@ class Feed(models.Model):
     
     tags = models.ManyToManyField(Tag,through='FeedTag',related_name='feed_tag')
     
+    seen = models.ManyToManyField(User,through='FeedSeen', related_name='feed_seen')
+    
+    
     
     def __str__(self):
         return self.caption_text
@@ -76,3 +79,8 @@ class FeedComment(models.Model):
 class FeedTag(models.Model):
     feed = models.ForeignKey(Feed, on_delete=models.CASCADE)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+    
+
+class FeedSeen(models.Model):
+    feed = models.ForeignKey(Feed, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
