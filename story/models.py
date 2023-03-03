@@ -23,15 +23,15 @@ class Tag(models.Model):
 
 class Comment(models.Model):
     text = models.TextField(max_length=5000, default="")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="story_comments")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="story_comment_user")
     reply = models.ForeignKey(
-        'self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
+        'self', on_delete=models.CASCADE, null=True, blank=True, related_name='story_replies')
 
 
 class Story(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='story_user')
     images = models.ManyToManyField(Image, through='StoryImage',related_name='story_images')
     videos = models.ManyToManyField(Video, through='StoryVideo',related_name='story_videos')
 
