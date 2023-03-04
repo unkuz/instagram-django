@@ -56,6 +56,7 @@ class FeedVideoList(generics.ListCreateAPIView):
 class FeedLikeAPIView(generics.CreateAPIView):
     queryset = FeedLike.objects.all()
     serializer_class = FeedLikeSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class FeedSaveAPIView(generics.CreateAPIView):

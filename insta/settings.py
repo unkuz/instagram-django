@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'feed',
     'story',
     'explore',
-    'reel'
+    'reel',
+    'inbox'
     
 ]
 

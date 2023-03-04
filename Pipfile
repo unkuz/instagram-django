@@ -12,6 +12,8 @@ pillow = "*"
 django-cors-headers = "*"
 gunicorn = "*"
 pyngrok = "*"
+pydash = "*"
+python-magic = "*"
 
 [dev-packages]
 autopep8 = "*"
