@@ -5,6 +5,7 @@ from user.models import User
 
 
 class Message(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='message_inbox')
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     read_at = models.DateTimeField(null=True, blank=True)
@@ -13,7 +14,7 @@ class Message(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-        return self.subject
+        return self.content
 
 
 class Inbox(models.Model):
