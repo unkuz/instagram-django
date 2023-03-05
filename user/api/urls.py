@@ -1,11 +1,11 @@
 
 
-from django.urls import path,include
+from django.urls import path
 
-from .views import UserList,UserDetail
+from .views import UserDetailAPIView, UserListAPIView
 
 urlpatterns = [
-    path('',UserList.as_view()),
-    path('<int:pk>/',UserDetail.as_view()),
-    
+    path('', UserListAPIView.as_view()),
+    path('<int:pk>/', UserDetailAPIView.as_view()),
+
 ]

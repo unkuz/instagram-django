@@ -135,9 +135,6 @@ class FeedSerializer(serializers.ModelSerializer):
 
 
 class FeedCreateSerializer(serializers.ModelSerializer):
-    # likes = serializers.ListField(
-    #     child=serializers.IntegerField(), required=False)
-
     class Meta:
         model = Feed
         exclude = ['user']
@@ -153,21 +150,10 @@ class FeedCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         request = self.context['request']
         user = request.user
-        print('self.con', self.context['request'].data)
         images = request.FILES.getlist('images')
         videos = request.FILES.getlist('videos')
-        print("validated_data", validated_data)
-
-        # likes_data = validated_data.pop('likes', [])
 
         feed = Feed.objects.create(user=user, **validated_data)
-
-        # Add likes to the feed
-        # for user_id in likes_data:
-        #     user = User.objects.get(id=user_id)
-        #     feed.likes.add(user)
-        # likes = User.objects.filter(id__in=likes_data)
-        # feed.likes.set(likes)
 
         for image_data in images:
             image = Image.objects.create(src=image_data)

@@ -1,9 +1,8 @@
 from django.urls import path
-from .views import MessageAPIView, MessageGroupAPIView
+from .views import InboxAPIView
 
 
 urlpatterns = [
-    path('',MessageAPIView.as_view()),
-    path('group/',MessageGroupAPIView.as_view())
+    path('',InboxAPIView.as_view()),
     
 ]

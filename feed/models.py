@@ -31,10 +31,10 @@ class Tag(models.Model):
 
 class Feed(models.Model):
     caption_text = models.TextField(max_length=5000, null=False, blank=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='feed_user')
+    
     images = models.ManyToManyField(Image, through='FeedImage')
     videos = models.ManyToManyField(Video, through='FeedVideo')
 
@@ -52,6 +52,9 @@ class Feed(models.Model):
 
     seen = models.ManyToManyField(
         User, through='FeedSeen', related_name='feed_seen')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.caption_text

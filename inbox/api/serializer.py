@@ -1,15 +1,15 @@
 from rest_framework import serializers
-from ..models import Message
+from ..models import Message,Inbox
 from operator import attrgetter
 from user.models import User
 from user.api.serializer import UserSerializer
 
 
-class MessageSerializer(serializers.ModelSerializer):
-    # sender = UserSerializer()
-    # recipient = UserSerializer()
+class InboxSerializer(serializers.ModelSerializer):
+    sender = UserSerializer()
+    recipient = UserSerializer()
     class Meta:
-        model = Message
+        model = Inbox
         fields = '__all__'
         read_only_fields = ['sender','recipient']
     
@@ -30,9 +30,9 @@ class MessageSerializer(serializers.ModelSerializer):
         if recipient_user.first() is user:
             raise serializers.ValidationError('Only accept send to other person')
         
-        message = Message.objects.create(sender = user, recipient= recipient_user.first(), **validated_data)
+        inbox = Inbox.objects.create(sender = user, recipient= recipient_user.first(), **validated_data)
         
-        return message
+        return inbox
         
         
         
