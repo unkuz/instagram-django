@@ -17,12 +17,25 @@ class Video(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
+class CommentReply(models.Model):
+    text = models.TextField(max_length=5000, default="")
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='feed_comment_reply_user')
+    comment = models.ForeignKey(
+        'Comment', on_delete=models.CASCADE, blank=True)
+
+
 class Comment(models.Model):
     text = models.TextField(max_length=5000, default="")
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='feed_comment_user')
-    reply = models.ForeignKey(
-        'self', on_delete=models.CASCADE, null=True, blank=True, related_name='feed_replies')
+    reply = models.ManyToManyField(
+        CommentReply, through='CommentCommentReply', related_name='feed_replies')
+
+
+class CommentCommentReply(models.Model):
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    comment_reply = models.ForeignKey(CommentReply, on_delete=models.CASCADE)
 
 
 class Tag(models.Model):
@@ -34,7 +47,7 @@ class Feed(models.Model):
 
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='feed_user')
-    
+
     images = models.ManyToManyField(Image, through='FeedImage')
     videos = models.ManyToManyField(Video, through='FeedVideo')
 

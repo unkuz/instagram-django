@@ -3,7 +3,6 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.hashers import make_password
 
-
 class CustomUserManager(BaseUserManager):
     def create_user(self, user_name, password=None, **extra_fields):
         if not user_name:
@@ -15,6 +14,9 @@ class CustomUserManager(BaseUserManager):
 
     def create_superuser(self, user_name, password=None, **extra_fields):
         return self.create_user(user_name, password, **extra_fields)
+
+
+
 
 
 class User(AbstractBaseUser):
@@ -32,7 +34,7 @@ class User(AbstractBaseUser):
         upload_to='static/images/cover/', null=True, blank=True, default='static/default/cover_proflie.jpg')
 
     USERNAME_FIELD = 'user_name'
-
+    
     objects = CustomUserManager()
 
     def has_perm(self, perm, obj=None):

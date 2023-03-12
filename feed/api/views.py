@@ -1,6 +1,7 @@
 from rest_framework import generics, permissions
 from ..models import Feed, Image, FeedImage, Video, FeedVideo, FeedLike, FeedSave
-from .serializer import FeedSerializer, FeedSaveSerializer, ImageSerializer, FeedImageSerializer, VideoSerializer, FeedVideoSerializer, FeedCreateSerializer, FeedLikeSerializer
+from .serializer import *
+from utils.permissions.is_owner import IsOwner
 
 
 class FeedCreate(generics.CreateAPIView):
@@ -21,6 +22,12 @@ class FeedList(generics.ListAPIView):
 class FeedDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Feed.objects.all()
     serializer_class = FeedSerializer
+    permission_classes = [IsOwner]
+
+
+class FeedComment(generics.ListCreateAPIView):
+    queryset = Feed.objects.all()
+    serializer_class = FeedCommentSerializer
 
 
 class ImageList(generics.ListCreateAPIView):

@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok.io']
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,9 +46,11 @@ INSTALLED_APPS = [
     'story',
     'explore',
     'reel',
-    'inbox'
-    
+    'inbox',
 ]
+
+# WSGI_APPLICATION = 'insta.wsgi.application'
+# ASGI_APPLICATION = 'insta.asgi.application'
 
 
 REST_FRAMEWORK = {
@@ -62,7 +65,8 @@ AUTH_USER_MODEL = 'user.User'
 
 SIMPLE_JWT = {
     'TOKEN_SERIALIZER': 'user.api.CustomTokenObtainPairSerializer',
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5*24*60*60)
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5*24*60*60),
+    "SIGNING_KEY": "cuzknothz",
 
 }
 
@@ -106,8 +110,6 @@ TEMPLATES = [
         },
     },
 ]
-
-WSGI_APPLICATION = 'insta.wsgi.application'
 
 
 # Database

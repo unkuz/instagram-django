@@ -5,6 +5,15 @@ from ..models import User
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
+    is_online = serializers.SerializerMethodField()
+    has_read_story = serializers.SerializerMethodField()
+    
+    def get_has_read_story(self,obj):
+        return True
+    
+    
+    def get_is_online(self,obj):
+        return True
 
     class Meta:
         model = User

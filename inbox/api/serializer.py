@@ -31,6 +31,11 @@ class InboxSerializer(serializers.ModelSerializer):
         if recipient_user.first() is user:
             raise serializers.ValidationError(
                 'Only accept send to other person')
+            
+        check = Inbox.objects.filter(sender = user,recipient =  recipient_user.first()).exists()
+        
+        if check:
+            return {}
 
         inbox = Inbox.objects.create(
             sender=user, recipient=recipient_user.first(), **validated_data)

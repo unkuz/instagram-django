@@ -14,6 +14,7 @@ gunicorn = "*"
 pyngrok = "*"
 pydash = "*"
 python-magic = "*"
+channels = "*"
 
 [dev-packages]
 autopep8 = "*"

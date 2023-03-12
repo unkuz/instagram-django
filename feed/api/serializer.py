@@ -1,4 +1,4 @@
-from ..models import Feed, Image, FeedImage, Video, FeedVideo, FeedLike, FeedSave, Tag
+from ..models import *
 from user.models import User
 from rest_framework import serializers, status
 from user.api.serializer import UserSerializer
@@ -132,6 +132,7 @@ class FeedSerializer(serializers.ModelSerializer):
         model = Feed
         # fields = '__all__'
         exclude = ('images', 'videos')
+        depth = 5
 
 
 class FeedCreateSerializer(serializers.ModelSerializer):
@@ -162,5 +163,38 @@ class FeedCreateSerializer(serializers.ModelSerializer):
         for video_data in videos:
             video = Video.objects.create(src=video_data)
             FeedVideo.objects.create(feed=feed, video=video)
+
+        return feed
+
+
+class FeedCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FeedLike
+        exclude = ['feed', 'user']
+
+    def create(self, validated_data):
+        request = self.context['request']
+        user = request.user
+        content = request.data.get('content')
+        feed_id = request.data.get('feed')
+        comment_id = request.data.get('comment_id')
+        print("CONTENET", content)
+        print("FEED_ID", feed_id)
+
+        feed = Feed.objects.filter(id=feed_id).first()
+
+        if feed:
+            if comment_id:
+                comment = Comment.objects.filter(id=comment_id).first()
+                if comment:
+                    comment_reply = CommentReply.objects.create(
+                        user=user, text=content, comment=comment)
+
+                    comment.reply.add(comment_reply)
+
+                pass
+            else:
+                comment = Comment.objects.create(text=content, user=user)
+                FeedComment.objects.create(comment=comment, feed=feed)
 
         return feed
