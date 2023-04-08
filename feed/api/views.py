@@ -32,6 +32,15 @@ class FeedListFilterByUser(generics.ListAPIView):
         return queryset
 
 
+class FeedSavedListFilterByUser(generics.ListAPIView):
+    serializer_class = FeedSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Feed.objects.filter(saved=user).order_by('-created_at')
+        return queryset
+
+
 class FeedDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Feed.objects.all()
     serializer_class = FeedSerializer

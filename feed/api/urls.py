@@ -11,5 +11,6 @@ urlpatterns = [
     path('save/', FeedSaveAPIView.as_view()),
     path('like/', FeedLikeAPIView.as_view()),
     path('save/', FeedSaveAPIView.as_view()),
-    path('by-user/', FeedListFilterByUser.as_view())
+    path('by-user/', FeedListFilterByUser.as_view()),
+    path('saved-by-user/', FeedSavedListFilterByUser.as_view())
 ]
