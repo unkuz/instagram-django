@@ -23,6 +23,7 @@ class CommentReply(models.Model):
         User, on_delete=models.CASCADE, related_name='feed_comment_reply_user')
     comment = models.ForeignKey(
         'Comment', on_delete=models.CASCADE, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class Comment(models.Model):
@@ -31,6 +32,7 @@ class Comment(models.Model):
         User, on_delete=models.CASCADE, related_name='feed_comment_user')
     reply = models.ManyToManyField(
         CommentReply, through='CommentCommentReply', related_name='feed_replies')
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class CommentCommentReply(models.Model):

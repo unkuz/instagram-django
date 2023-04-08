@@ -51,7 +51,8 @@ class ReelSerializer(serializers.ModelSerializer):
 
 class ReelDetailSerializer(serializers.ModelSerializer):
     user = UserSerializer()
-    videos = VideoSerializer(many=True )
+    videos = VideoSerializer(many=True)
+
     class Meta:
         model = Reel
         fields = '__all__'

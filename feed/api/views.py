@@ -19,6 +19,19 @@ class FeedList(generics.ListAPIView):
         return queryset.order_by('-created_at')
 
 
+class FeedListFilterByUser(generics.ListAPIView):
+    serializer_class = FeedSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        print("USER", user)
+        queryset = Feed.objects.all()
+        if user is not None:
+            queryset = queryset.filter(
+                user__exact=user).order_by('-created_at')
+        return queryset
+
+
 class FeedDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Feed.objects.all()
     serializer_class = FeedSerializer
