@@ -42,7 +42,7 @@ class FeedSavedListFilterByUser(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        queryset = Feed.objects.filter(saved=user).order_by('-created_at')
+        queryset = Feed.objects.filter(saved=user).order_by('-id')
         return queryset
 
 
